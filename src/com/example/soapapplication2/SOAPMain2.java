@@ -87,7 +87,7 @@ public class SOAPMain2 extends Activity {
 	        @Override
 	        protected Void doInBackground(String... params) {
 	            Log.i(TAG, "doInBackground");
-	            getFahrenheit(userKey,haslo);
+	            getCredits(userKey,haslo);
 	            return null;
 	        }
 	 
@@ -121,7 +121,7 @@ public class SOAPMain2 extends Activity {
 	 
 	    }
 		
-		public void getFahrenheit(String uk,String h) {
+		public void getCredits(String uk,String h) {
 
 		    SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
 

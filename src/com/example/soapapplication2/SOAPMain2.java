@@ -9,6 +9,7 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 
+import org.ksoap2.transport.HttpTransportSE;
 import org.ksoap2.transport.HttpsTransportSE;
 
 
@@ -148,8 +149,8 @@ public class SOAPMain2 extends Activity {
 		            SoapEnvelope.VER11);
 		    envelope.dotNet = true;
 		    envelope.setOutputSoapObject(request);
-
-		    HttpsTransportSE httpsTransport = new HttpsTransportSE("webservice.aspsms.com",443, "aspsmsx2.asmx", 60000);
+		    HttpTransportSE httpsTransport = new HttpTransportSE(NAMESPACE);
+		    //HttpsTransportSE httpsTransport = new HttpsTransportSE("webservice.aspsms.com",443, "aspsmsx2.asmx", 60000);
 		    
 		    try {
 		    	

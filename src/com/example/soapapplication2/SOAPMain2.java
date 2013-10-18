@@ -1,6 +1,8 @@
 package com.example.soapapplication2;
 
 
+import java.net.SocketTimeoutException;
+
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.PropertyInfo;
 import org.ksoap2.serialization.SoapObject;
@@ -87,6 +89,7 @@ public class SOAPMain2 extends Activity {
 	        @Override
 	        protected Void doInBackground(String... params) {
 	            Log.i(TAG, "doInBackground");
+	            if(userKey!=null && haslo!=null)
 	            getCredits(userKey,haslo);
 	            return null;
 	        }
@@ -94,17 +97,20 @@ public class SOAPMain2 extends Activity {
 	        @Override
 	        protected void onPostExecute(Void result) {
 	            Log.i(TAG, "onPostExecute");
-	            if(wynik.equals("StatusCode:3") || wynik.equals("StatusCode:8") || wynik.equals("StatusCode:9"))
+	            if(wynik!=null)
 	            {
-	            	tv.setText("Niepoprawne dane");
+		            if(wynik.equals("StatusCode:3") || wynik.equals("StatusCode:8") || wynik.equals("StatusCode:9"))
+		            {
+		            	tv.setText("Niepoprawne dane");
+		            }
+		            else if(wynik.equals("StatusCode:2"))
+		            {
+		            	tv.setText("B³¹d po³¹czenia");
+		            }
+		            else
+		            {
+		            	tv.setText(wynik);
 	            }
-	            else if(wynik.equals("StatusCode:2"))
-	            {
-	            	tv.setText("B³¹d po³¹czenia");
-	            }
-	            else
-	            {
-	            	tv.setText(wynik);
 	            }
 	        }
 	 
@@ -143,16 +149,18 @@ public class SOAPMain2 extends Activity {
 		    envelope.dotNet = true;
 		    envelope.setOutputSoapObject(request);
 
-		    HttpsTransportSE httpsTransport = new HttpsTransportSE("webservice.aspsms.com",443, "aspsmsx2.asmx", 1000);
+		    HttpsTransportSE httpsTransport = new HttpsTransportSE("webservice.aspsms.com",443, "aspsmsx2.asmx", 60000);
 		    
 		    try {
+		    	
 		    	httpsTransport.call(SOAP_ACTION, envelope);
 		        SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
 		        wynik = response.toString();
-		 
-		    } catch (Exception e) {
-		        e.printStackTrace();
 		    }
+		    catch (Exception e) {
+			     e.printStackTrace();
+			}
+		    
 		}
 		
 	
